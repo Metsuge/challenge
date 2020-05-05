@@ -3,6 +3,7 @@ let firstCardFront = '';
         let secondCardFront = '';
         let secondCardBack = '';
         let total = 0;
+        let lockBoard = false;
 
         const cards = document.querySelectorAll('.card');
         const resetBtn = document.getElementById('btn-reset');
@@ -53,6 +54,8 @@ let firstCardFront = '';
         }
 
         function compareCards(event) {
+            if (lockBoard) return;    
+                
             let selectedBackCard = event.target;
             selectedBackCard.classList.add('d-none');
             let selectedFrontCard = event.target.nextElementSibling;
@@ -70,12 +73,15 @@ let firstCardFront = '';
 
             if (firstCardBack != '' && secondCardBack != '') {
                 if (firstCardFront.src != secondCardFront.src) {
+                        lockBoard = true;
                     setTimeout(function() {
                         firstCardFront.classList.add('d-none');
                         firstCardBack.classList.remove('d-none');
                         secondCardFront.classList.add('d-none');
                         secondCardBack.classList.remove('d-none');
                         resetVariables();
+                            
+                        lockBoard = false;
                     }, 300);
                 } else {
                     total++;
